@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			form{
+				background-color: #f6f6f6f6;
+				width: 200px;
+				height: 40px;
+				margin: 10px auto;
+			}
+		</style>
+		<script type="text/javascript">
+			var arr = [
+    	{
+        id: 1,
+        riqi: '2017-11-13'
+    	},
+    	{
+        id: 2,
+        riqi: '2017-11-14'
+    	},
+    	{
+        id: 3,
+        riqi: '2017-11-15'
+    	},
+		],
+	// 缓存数组长度，进一步提升代码性能
+	len = arr.length,
+	result = [];
+ 
+	for (var i = 0; i < len; i++) {
+    result[i] = arr[i]
+	}	;
+ 
+	console.log(result);
+		</script>
+	</head>
+	<body>
+		
+		<form action="http://127.0.0.1/api/getdbsptList.html?spt=1"  method="post">
+			<input type="submit" value="查询数据库列表" />
+		</form>
+		<form enctype="application/json" id="insert">
+			<input type="submit" value="插入数据" id="#submitAdd" />
+		</form>
+		<form action="http://127.0.0.1/api/getdbsptList.html?spt=1"  method="post">
+			<input type="submit" value="删除数据" />
+		</form>
+		<form action="http://127.0.0.1/api/getdbsptList.html?spt=1"  method="post">
+			<input type="submit" value="更新数据" />
+		</form>
+	</body>
+</html>

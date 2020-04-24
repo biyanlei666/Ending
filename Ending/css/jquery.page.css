@@ -1,0 +1,104 @@
+@charset "utf-8";
+
+body{
+	/*background: #494A5F;*/
+	font-weight: 500;
+	font-size: 1.05em;
+	font-family: "Microsoft YaHei","Segoe UI", "Lucida Grande", Helvetica, Arial,sans-serif;
+}
+/*样式参考*/
+a {
+    text-decoration: none;
+}
+
+#page {
+    height: 50px;
+    display: table;
+    margin: 0 auto;
+}
+
+.page {
+    text-align: center;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.pagingUl {
+    float: right;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    height: 30px;
+}
+
+.pagingUl li {
+    float: left;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    text-align: center;
+    margin-right: 10px;
+    border: 1px solid #428bca;
+    border-radius: 5px
+}
+
+.pagingUl li a {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 28px;
+    font-size: 12px;
+    border-radius: 5px
+}
+
+.prv,
+.next {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    color: #161010;
+    background: #fff;
+    border: 1px solid #54A3FE;
+    padding: 0 5px;
+    border-radius: 5px;
+}
+
+.prv {
+    margin-right: 10px;
+}
+
+.first,
+.last {
+    width: 45px;
+    height: 30px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #428bca;
+    color: #4EA5FB;
+    /*border: 1px solid #ddd;*/
+    cursor: pointer;
+    background: #fff;
+    padding: 0 5px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.prv:hover,
+.next:hover,
+.first:hover,
+.last:hover,
+.pagingUl li a:hover,
+.activP {
+    background-color: #4056DB!important;
+    color: #fff!important;
+}

@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <title>辅助采编系统-新增页</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+     <!-- bootstrap样式表 -->
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/css/bootstrap.css" rel="stylesheet">
+    <!-- bootstrap表单验证样式表 -->
+    <link href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
+    <!-- 自定义样式表 -->
+    <link rel="stylesheet" href="./css/press.css">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/js/bootstrap.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/language/zh_CN.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="header">
+          <ul class="pager">
+                    <li class="previous"><a href="./list.html">返回</a></li>
+            </ul>
+            <h5>
+            辅助采编系统     
+            </h5>
+            <input type="file" name="upImg" id="upImg" multiple="multiple">
+            <canvas id="cover" width="80" height="60"></canvas>
+            <img src="" id="img0">
+            <script type="text/javascript">
+                $('#upImg').change(function(){
+                    $('#img0').show();
+                    var objUrl = getObjectURL(this.files[0]);//获取文件信息
+                    console.log("objUrl="+objUrl);
+                    if (objUrl) {
+                        draw(objUrl)
+                    }
+                })
+               function getObjectURL(file){
+                if (window.createObjectURL!=undefined) {
+                    url = window.createObjectURL(file);
+                } else if (window.URL!=undefined) {
+                    url = window.URL.createObjectURL(file);
+                }else if (window.webkitURL!= undefined) {
+                    url = window.webkitURL.createObjectURL(file);
+                }
+                    return url;
+               }
+                //绘制画布
+                function draw(objUrl){
+                        //获取画布
+                    var ctx=$('#cover')[0].getContext('2d');
+                        //创建Image对象
+                    var img=new Image();
+                    img.onload = function(){
+                        ctx.drawImage(img,0,0,60,60);
+                        
+                    }
+                        img.src=objUrl;
+                    }
+                window.onload=function(){
+                        draw();
+                    }
+            </script>
+        </div>
+   <form id="addForm">
+        <div class="form-group">
+                <label>标题</label>
+                <input type="text" class="form-control" name="title" />
+            </div>
+            <div class="form-group">
+                <label>责编</label>
+                <input type="text" class="form-control" name="author" />
+            </div>
+            <div class="form-group">
+                <label>发布日期</label>
+                <input type="date" class="form-control" name="publish_Date" />
+            </div>
+             <div class="form-group">
+                <label>栏目:</label>
+                <select class="form-control" name="column_name">
+                    <option value="新闻资讯">新闻资讯</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>来源</label>
+                <input type="text" class="form-control" name="source" />
+            </div>
+             <div class="form-group">
+            <label>摘要:</label>
+            <textarea name="abstract" class="form-control"></textarea>
+            </div>
+            <div id="editor"></div>
+        <textarea id="text1" name="editorValue" style="width: 100%;height: 200px;display: none;"></textarea>
+        <script type="text/javascript" src="wangEditor-3.1.1/release/wangEditor.js"></script>
+        <script type="text/javascript">
+               var E = window.wangEditor
+               var editor=new E('#editor')
+               editor.customConfig.uploadImgShowBase64 =true;//
+               var $text1 = $('#text1')
+               editor.customConfig.onchange = function(html){
+                //监控变化，同步更新到textarea
+                $text1.val(html)
+               }
+               editor.create()
+               //初始化 textarea 的值
+               $text1.val(editor.txt.html())
+        </script>
+    </form>
+     <div class="footer">
+            
+                <button id="submitAdd" type="button" name="submit" class="btn btn-default btn-md">
+                    <span class="glyphicon glyphicon-ok" style="color: rgb(255, 140, 60);"> 确认添加</span>
+               </button>
+            </div>
+	
+</div>
+<script type="text/javascript" src="./js/press.js"></script>
+</body>
+</html>

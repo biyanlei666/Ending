@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>辅助采编系统-列表管理页</title> 
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <!-- bootstrap样式表 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./css/press.css">
+    <!-- jquery库配置文件 -->
+    <script type="text/javascript" src="./js/jquery-3.4.1.js"></script>
+    <!-- bootstrap插件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./js/template-web.js"></script>
+    <!-- 自定义配置文件  -->
+    <script type="text/javascript" src="./js/list.js"></script>
+    <!-- 分页配置文件 -->
+    <!-- <script src="js/jquery.page.js"></script> -->
+    <script type="text/javascript" src="./js/jquery.page.js"></script>
+    <style type="text/css">
+        .page{padding: 15px 20px;text-align: left;color: #ccc;text-align:center;}
+        .page a{display: inline-block;color: #428bca;display: inline-block;height: 25px; line-height: 25px;  padding: 0 10px;border: 1px solid #ddd; margin:0 2px;border-radius: 4px;vertical-align: middle;}
+        .page a:hover{text-decoration: none;border: 1px solid #428bca;}
+        .page span.current{display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;color: #fff;background-color: #428bca; border: 1px solid #428bca;border-radius: 4px;vertical-align: middle;}
+        .page span.disabled{ display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px; color: #bfbfbf;background: #f2f2f2;border: 1px solid #bfbfbf;border-radius: 4px;vertical-align: middle;}
+    </style>
+</head>  
+<body>     
+<div class="container-fluid">
+            <div class="header">
+                    <h5>海纳信息辅助采编系统</h5>
+                </div>
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                <div>
+                    <form class="navbar-form navbar-left" role="search">
+                    <select class="form-control" id="s1">
+                        <option>新闻资讯</option>
+                    </select>
+                    <select class="form-control" id="s2">
+                        <option>搜索记录</option>
+                    </select>
+                    <div class="form-group">
+                    <input type="serach" class="form-control" placeholder="Search" id="mySearch" >
+                    </div>
+                    <button type="submit" class="btn btn-info" id="btnSearch">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </form>
+                 <button type="button" class="btn btn-default" id="btnAdd" onclick="window.location.href='./addNews.html'">
+                    <span class="glyphicon glyphicon-plus" style="color: rgb(255, 140, 60);"> 新增</span>
+                </button>
+                <button class="btn btn-info" id="dataZL">
+                    <script type="text/html" id="templatehit">
+                    <h5 id="h" value="12">数据总量</h5>
+                    <label class="totalpage" value='{{returnhit}}'>{{returnhit}}</label> 
+                    </script>
+                </button>
+                </div>
+                </div>
+                <!-- 页面主要部分 -->
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover" id="table" style="color: #0848A7" >
+                    
+                    <thead>
+                            <tr>
+                                <td>序号</td>
+                                <td>名称</td>
+                                <td>作者</td>
+                                <td>状态</td>
+                                <td>发布日期</td>
+                                <td>栏目</td>
+                                <td>来源</td>
+                                <td>创建日期</td>
+                                <td>最新修改日期</td>
+                                <td>操作</td>
+                        </thead>
+                        <tbody id="tbody">
+                            <script type="text/html" id="templateList">
+    
+                                {{each records as value index}}
+                                    <tr>
+                                        <td>{{start+index+1}}</td>
+                                        <td><a href="details.html?rid={{value.rid}}" id="title">{{value.meta[0]}}</a></td>
+                                        <td id="author">{{value.meta[1]}}</td>
+                                        <td id="state">已发布</td>
+                                        <td id="publish_Date">{{value.meta[2]}}</td>
+                                        <td id="colum_Name">{{value.meta[3]}}</td>
+                                        <td id="source">{{value.meta[4]}}</td>
+                                        <td id="create_Time">0000-00-00</td>
+                                        <td id="update_Time">0000-00-00</td>
+                                        <td>
+                                            <button id="updateBtn" value='{{value.rid}}' class='btn btn-info btn-xs upd'
+                                                    onclick="updateUI(this)">
+                                                <span class='glyphicon glyphicon-edit'></span>
+                                            </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button id="deleteBtn" value='{{value.rid}}' class='btn btn-info btn-xs btt' 
+                                                onclick="doDelete(this)">
+                                                <span class='glyphicon glyphicon-trash'></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {{/each}}   
+                            </script>
+                        </tbody>    
+                    </table>
+                    <!-- 分页 -->
+               <div class="page" id="page">
+                   
+                        
+                    </div>
+                    <!-- 分页结束 -->
+                </div>
+                 
+            </div>
+            <!-- 底部 -->
+           <!--  <div class="footer">
+                    
+            </div> -->
+             <!--   底部结束 -->
+        </div>
+</body>
+</html>

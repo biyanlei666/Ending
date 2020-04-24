@@ -1,0 +1,149 @@
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>辅助采编系统-详情页</title>
+	<!-- 引入图标 -->
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<!-- bootstrap样式 -->
+	<link href="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/css/bootstrap.css" rel="stylesheet">
+	<!-- jquery库配置文件 -->
+	<script type="text/javascript" src="./js/jquery-3.4.1.js"></script>
+	<!-- 模板引擎配文件 -->
+	<script type="text/javascript" src="./js/template-web.js"></script>
+	<!-- 编辑器配置文件 -->
+    <script type="text/javascript" charset="utf-8" src="./ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" charset="utf-8" src="./ueditor/ueditor.all.js"> </script>
+	<style type="text/css">
+		a {text-decoration:none;}
+		a:visited {text-decoration:none;}
+		a:hover {text-decoration:none;cursor: pointer;}
+		a:active {text-decoration: none;} 
+		a:link{text-decoration: none;}
+		.wel{
+			margin-top: 20px;
+		}
+		.head{
+			min-height: 80px;
+			background-color: #4056DB!important;
+		}
+		.head ul{
+			display: block;
+			float: left;
+			padding: 0
+			margin-top:0;
+		}
+		h3{
+			color: #fff;
+			font-weight: bold;
+		}
+		#body{
+			    word-wrap:break-word;  
+    			word-break:break-all;  
+    			overflow: hidden;
+		}
+		thead span{
+			margin-left: 20px;
+		}
+		tbody span{
+			margin-left: 20px;
+		}
+		tbody p{
+			margin-left: 35px;
+		}
+	</style>
+	<script type="text/javascript">
+			var loc = location.href;
+            var n1 = loc.length;//地址的总长度
+            var n2 = loc.indexOf("=");//取得=号的位置
+            var rid = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+            //调用函数
+            queryDetails(rid);
+
+
+            function queryDetails(rid){
+            	$.ajax({
+				url:'http://192.168.31.111/api/detail.html?&random='+new Date().getMilliseconds(),
+				type:'post',
+				data:{
+                    db:"9991201",
+                    rid:rid
+				},
+				dataType:'json',
+				success:function(data){
+				console.log(data);
+				console.log(data.meta);
+				var title=data.meta[0];
+				var peter=data.authors[0].name;
+				var date =data.meta[2];
+				var column=data.meta[3];
+				var source=data.meta[4];
+				var abstract=data.meta[5];
+				var editor=data.meta[6];
+				$('.title').text(title);
+				$('.peter').text(peter);
+				$('.date').text(date);
+				$('.column').text(column);
+				$('.source').text(source);
+				$('.abstract').text(abstract);
+				ed.txt.html(editor);
+				// 禁用编辑功能
+				ed.$textElem.attr('contenteditable', false)
+				 
+				}
+			});
+           }
+           
+	</script>
+</head>
+<body>
+	<div class="container wel">
+		<div class="panel panel-default">
+			<div class="panel-heading head" style="text-align: center;">
+				<ul class="pager">
+                    	<li class="previous"><a href="./list.html">返回</a></li>
+            		</ul>
+				<h3>
+        			<span class="title"></span>
+        		</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table table-hover table-bordered">
+					
+					<thead id="thead">
+						
+					</thead>
+					<tbody id="tbody">
+							<tr>
+							<td><strong>责编:</strong><span class="peter"></span></td>
+							<td><strong>发布日期:</strong><span class="date"></span></td>
+							<td><strong>栏目:</strong><span class="column"></span></td>
+							<td><strong>来源:</strong><span class="source"></span></td>
+						</tr>
+						<tr>
+							<td colspan="4"><strong>摘要:</strong><p class="abstract"></p></td>
+						</tr>
+						<tr style="border: 0">
+							<td colspan="4" id="body"><strong>正文:</strong>
+								<div id="editor"></div>
+								<script type="text/javascript" src="wangEditor-3.1.1/release/wangEditor.js"></script>
+								<script type="text/javascript">
+									var E =window.wangEditor
+									var ed=new E('#editor')
+									 // 自定义菜单配置
+    								ed.customConfig.menus = []
+									ed.create()
+								</script>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+	</div>
+	
+</body>
+</html>

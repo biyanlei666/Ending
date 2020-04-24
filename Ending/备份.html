@@ -1,0 +1,135 @@
+$(function(){
+        $.ajax({  
+            //请求方式  
+            type:"post",  
+            //文件位置  
+            url:"http://127.0.0.1/api/search.html?",
+            //返回数据格式为json,也可以是其他格式如
+            //传递的参数
+            data:{
+            	db:"9991201",
+                cmd:4,
+                indextype:1
+            },  
+            dataType: "json",  
+            //请求成功后要执行的函数，拼接html  
+            success: function(data){ 
+            	var records=data.records;
+            	console.log(records);
+                var str="<tbody>";  
+                $.each(records,function(i,n){ 
+                    str+="<tr>"+
+                    "<td>"+(i+1)+"</td>"+
+                    "<td>"+"<a id='"+n.rid+"' class='det'>"+n.meta[0]+"</td>"+
+                    "<td>"+n.meta[1]+"</td>"+
+                    "<td>"+"未发布"+"</td>"+
+                    "<td>"+n.meta[2]+"</td>"+
+                    "<td>"+n.meta[3]+"</td>"+
+                    "<td>"+n.meta[4]+"</td>"+
+                    "<td>"+
+                    "<button id='"+n.rid+"' class='btn btn-info btn-xs upd'>"+
+                    "<span class='glyphicon glyphicon-edit'>"+"</span>"+
+                    "</button>"+
+                    "&nbsp;&nbsp;&nbsp;&nbsp;+
+                    "<button id='"+n.rid+"' class='btn btn-info btn-xs btt'>"+
+                    "<span class='glyphicon glyphicon-trash'>"+"</span>"+
+                    "</button>"+
+                    "</td>"+
+                    "</tr>";
+                    
+                }); 
+                str+="</tbody>";   
+              
+                $("#table").append(str); 
+                //删除操作 
+                var dels = $('.btt');
+                if(dels!=null){
+                	for(var i=0;i<dels.length;i++){
+                		var b = dels[i];
+                		b.onclick = (function(divs){//外部函数-
+    	            			        return function(){//内部函数
+    	             			        	console.log(divs);
+    	      								var id =$(this).attr("id");
+    	            		    			var flag = confirm("确定要删除？")
+											if(flag){
+											// var res	= window.location.href="http://127.0.0.1/api/dbdo.html?db=9991201&cmd=3&rid="+id;
+											// 	alert(res);
+											$.ajax({
+												type:'post',
+												url:'http://127.0.0.1/api/dbdo.html',
+												data:{
+													db:9991201,
+													cmd:3,
+													rid:id,
+                                                    indextype:0
+												},
+												dataType:'json',
+												success:function(data){
+														alert('删除成功');
+                                                        window.location.href = window.location.href;
+
+												},
+												error:function(){
+													alert('删除失败');
+												}
+											})
+											}
+    	            		    			 
+    	            			    	 
+    	            			    	 
+    	            			            }
+    	            			     })(data);//传递data为实参
+                	}
+                }
+                //转发到修改页面
+                 var update = $('.upd');
+                if(update!=null){
+                	for(var i=0;i<update.length;i++){
+                		var b = update[i];
+                		b.onclick = (function(divs){//外部函数-
+    	            			        return function(){//内部函数
+    	             			        	console.log(divs);
+    	      								var id =$(this).attr("id");
+											var res	= window.location.href="updateNews.html?rid="+id;
+    	            			    	 
+    	            			            }
+    	            			     })(data);//传递data为实参
+                	}
+                }
+                 var detials = $('.det');
+                if(detials!=null){
+                    for(var i=0;i<detials.length;i++){
+                        var b = detials[i];
+                        b.onclick = (function(divs){//外部函数-
+                                        return function(){//内部函数
+                                            console.log(divs);
+                                            var id =$(this).attr("id");
+                                            var res = window.location.href="details.html?rid="+id;
+                                            }
+                                     })(data);//传递data为实参
+                    }
+                }
+
+
+
+            }  
+        });  
+
+       
+    }); 
+</script>  
+
+
+
+ var currentPage=1;
+                $(".page").createPage({
+                pageCount:pageCount,
+                current:currentPage,
+                backFn:function(p){ 
+                   var pageIndex = (p-1)*10;
+                    console.log("索引值"+pageIndex);
+                     getAllData(pageIndex);
+                     currentPage=p;
+                }
+
+            });
